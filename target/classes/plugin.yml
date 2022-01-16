@@ -1,0 +1,9 @@
+name: RaphaZombie
+version: '1.0-SNAPSHOT'
+main: com.github.idimabr.raphazombie.RaphaZombie
+api-version: 1.18
+authors: [ iDimaBR ]
+softdepend: [PlaceholderAPI]
+commands:
+  infect:
+    aliases: [infectzombie, iz]
