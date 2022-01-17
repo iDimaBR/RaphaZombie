@@ -1,0 +1,11 @@
+
+i
+java:S2975("SRemove this "clone" implementation; use a copy constructor or copy factory instead.(¶•ÊÞ
+^
+java:S1182("HUse super.clone() to create and seed the cloned instance to be returned.(¶•ÊÞ
+>	java:S108[")Either remove or fill this block of code.(åÞÖ¶
+L
+java:S1133ò"5Do not forget to remove this deprecated code someday.(¼Æóž
+?
+java:S1123ò"(Add the missing @deprecated Javadoc tag.(¼Æóž
+?	java:S108‡")Either remove or fill this block of code.(åÞÖ¶
