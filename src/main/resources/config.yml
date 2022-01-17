@@ -18,7 +18,7 @@ Efeitos:
 InventarioConfirmar:
   Titulo: "Deseja armazenar esse Astatos?"
   Comandos:
-  - "/paycoins %player% 300"
+  - "/tell %player% Olá tudo bem?"
 
 Crafting:
   Morfina:

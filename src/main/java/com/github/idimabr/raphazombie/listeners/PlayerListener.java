@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.UUID;
 
 public class PlayerListener implements Listener {
@@ -101,6 +102,11 @@ public class PlayerListener implements Listener {
         if (zplayer.isInfected()) {
             Bukkit.broadcastMessage(RaphaZombie.getInstance().messages.getString("Morte.Zumbi").replace("&","§").replace("%player%", player.getName()));
             zplayer.resetPlayer();
+            return;
+        }
+        if (zplayer.isBlooding()) {
+            Bukkit.broadcastMessage(RaphaZombie.getInstance().messages.getString("Morte.Sangramento").replace("&","§").replace("%player%", player.getName()));
+            zplayer.resetPlayer();
         }
     }
 
@@ -108,7 +114,6 @@ public class PlayerListener implements Listener {
     public void onMove(FoodLevelChangeEvent e){
         Player player = (Player) e.getEntity();
         if(!player.getWorld().getName().equalsIgnoreCase(RaphaZombie.getInstance().config.getString("Mundo"))) return;
-        if(e.isCancelled()) return;
 
         ZPlayer zplayer = CacheManager.cache.get(player.getUniqueId());
         if(zplayer == null) return;
@@ -117,8 +122,8 @@ public class PlayerListener implements Listener {
         if(player.hasPermission("zombie.vip"))
             chance = RaphaZombie.getInstance().config.getInt("Chance.VIP");
 
-        if(player.getFoodLevel() <= 20 && CacheManager.random.nextInt(100) < chance){
-            zplayer.setSede(zplayer.getSede() - 3);
+        if(CacheManager.random.nextInt(100) < chance){
+            zplayer.setSede(zplayer.getSede() - (new Random().nextInt(3)) );
         }
     }
 
@@ -210,10 +215,18 @@ public class PlayerListener implements Listener {
         if(!item.getItemMeta().hasDisplayName()) return;
 
         if(item.getItemMeta().getDisplayName().equalsIgnoreCase("§aConfirmar")){
-            for(String command : RaphaZombie.getInstance().config.getStringList("Inventario.Comandos"))
-                Bukkit.dispatchCommand(player, command.replace("%player%", player.getName()));
             player.closeInventory();
-            removeItem(player);
+            int amount = player.getItemInHand().getAmount();
+            player.setItemInHand(new ItemStack(Material.AIR));
+            for(int i = amount; i > 0;i--)
+                for(String command : RaphaZombie.getInstance().config.getStringList("InventarioConfirmar.Comandos"))
+                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), command.replace("%player%", player.getName()));
+
+            if (RaphaZombie.getInstance().messages.getBoolean("Titles.Armazenou.Ativar")){
+                TitleUtil.sendTitle(player, messages.getString("Titles.Armazenou.Title").replace("%quantidade%", amount+"").replace("&", "§").replace("%player%", player.getName()), messages.getString("Titles.Armazenou.SubTitle").replace("%quantidade%", amount+"").replace("&", "§").replace("%player%", player.getName()), messages.getInt("Titles.Armazenou.Tempo"), messages.getInt("Titles.Armazenou.Tempo"), messages.getInt("Titles.Armazenou.Tempo"));
+            }else{
+                player.sendMessage(messages.getString("NoTitles.Armazenou").replace("%quantidade%", amount+"").replace("&", "§").replace("%player%", player.getName()));
+            }
         }else if(item.getItemMeta().getDisplayName().equalsIgnoreCase("§cCancelar")){
             player.closeInventory();
         }

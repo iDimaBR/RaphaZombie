@@ -1,6 +1,7 @@
 Morte:
   Sede: "&cO jogador %player% morreu de sede."
   Zumbi: "&cO jogador %player% morreu de infecção para um zumbi."
+  Sangramento: "&cO jogador %player% morreu de hemorragia."
 
 Mundo:
   Entrou: "&cO jogador %player% entrou do mundo de Chernobyl!"
@@ -12,13 +13,13 @@ Titles:
   Infectado:
     Ativar: true
     Tempo: 8
-    Title: "&cINFECTADO!"
-    SubTitle: "&7Você foi infectado!"
+    Title: "&c&lPERIGO!"
+    SubTitle: "&7Você foi infectado pelo vírus."
   Sangrando:
     Ativar: true
     Tempo: 8
-    Title: "&cSANGRANDO!"
-    SubTitle: "&7Você está sangrando!"
+    Title: "&c&lPERIGO!"
+    SubTitle: "&7Você quebrou a perna e está sangrando."
   NaoSede:
     Ativar: true
     Tempo: 8
@@ -49,11 +50,17 @@ Titles:
     Tempo: 8
     Title: "&aRECUPERADO!"
     SubTitle: "&fVocê não está mais infectado."
+  Armazenou:
+    Ativar: true
+    Tempo: 8
+    Title: "&aARMAZENADO!"
+    SubTitle: "&fVocê armazenou %quantidade%x astato(s) com sucesso."
 
 
 NoTitles:
-  Infectado: "&cVocê foi infectado!"
-  Sangrando: "&cVocê está sangrando!"
+  Infectado: "&cVocê foi infectado pelo vírus!"
+  Sangrando: "&cVocê quebrou a perna e está sangrando."
+  Armazenou: "&aVocê armazenou %quantidade%x astato(s) com sucesso."
   Erro:
     NaoInfectado: "&cVocê não está infectado!"
     NaoSangrando: "&cVocê não está sangrando!"

@@ -26,8 +26,8 @@ public class MySQL {
 			String password = config.getString("MySQL.Password");
 			connection = DriverManager.getConnection(url, username, password);
 			RaphaZombie.getInstance().getLogger().info("§cConexao com banco de dados foi estabelecida.");
-		} catch (Exception e) {
-			RaphaZombie.getInstance().getLogger().info("§cOcorreu um erro no banco de dados");
+		} catch (Exception e){
+			RaphaZombie.getInstance().getLogger().info("§cOcorreu um erro no banco de dados: " + e.getCause().toString());
 			Bukkit.getPluginManager().disablePlugin(RaphaZombie.getInstance());
 		}
 	}

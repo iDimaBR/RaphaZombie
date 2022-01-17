@@ -37,11 +37,9 @@ public final class RaphaZombie extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        config = new ConfigUtil(null, "config.yml", true);
-        config.reloadConfig();
+        config = new ConfigUtil(null, "config.yml", false);
         config.saveConfig();
-        messages = new ConfigUtil(null, "messages.yml", true);
-        messages.reloadConfig();
+        messages = new ConfigUtil(null, "messages.yml", false);
         messages.saveConfig();
 
         sql = new MySQL();
