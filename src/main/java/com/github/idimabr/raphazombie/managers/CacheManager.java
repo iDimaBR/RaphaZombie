@@ -9,32 +9,39 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class CacheManager {
 
     public static Random random = new Random();
     private static RaphaZombie instance = RaphaZombie.getInstance();
-    public static HashMap<UUID, ZPlayer> cache = new HashMap<UUID, ZPlayer>();
+    public static Map<UUID, ZPlayer> cache = new HashMap<>();
 
     public static void saveCache() {
-        cache.forEach((uuid, zplayer) -> {
-            Connection connection = instance.sql.getConnectionMySQL();
-            String query = "UPDATE players SET infected = ?, blood = ?, sede = ?, abates = ? WHERE UUID = ?;";
-            if(!instance.sql.contains(uuid.toString()))
-                query = "INSERT INTO players(`UUID`,`infected`,`blood`,`sede`,`abates`) VALUES (?,?,?,?,?);";
+        for(Map.Entry<UUID, ZPlayer> values : cache.entrySet()){
+            UUID uuid = values.getKey();
+            ZPlayer zplayer = values.getValue();
+            if(zplayer == null) return;
+
+            Connection connection = RaphaZombie.getInstance().sql.getConnectionMySQL();
+            String query = "UPDATE players SET UUID = ?, infected = ?, blood = ?, sede = ?, abates = ? WHERE UUID = ?";
+            if(!RaphaZombie.getInstance().sql.contains(uuid.toString()))
+                query = "INSERT INTO players(`UUID`,`infected`,`blood`,`sede`,`abates`) VALUES (?,?,?,?,?)";
+
             try(PreparedStatement ps = connection.prepareStatement(query)) {
-                ps.setBoolean(1, zplayer.isInfected());
-                ps.setBoolean(2, zplayer.isBlooding());
-                ps.setInt(3, zplayer.getSede());
-                ps.setInt(4, zplayer.getAbates());
-                ps.setString(5, zplayer.getUUID().toString());
-            } catch (SQLException e) {
-                e.printStackTrace();
+                ps.setString(1, zplayer.getUUID().toString());
+                ps.setBoolean(2, zplayer.isInfected());
+                ps.setBoolean(3, zplayer.isBlooding());
+                ps.setInt(4, zplayer.getSede());
+                ps.setInt(5, zplayer.getAbates());
+                if(query.contains("WHERE"))
+                    ps.setString(6, zplayer.getUUID().toString());
+                ps.execute();
+            } catch (SQLException error) {
+                error.printStackTrace();
             }
-        });
+            cache.remove(uuid);
+        }
     }
 
     public static void loadCache(boolean allPlayers, UUID uuidPlayer) {
@@ -52,11 +59,12 @@ public class CacheManager {
                     zplayer.setInfected(rs.getBoolean("infected"));
                     zplayer.setAbates(rs.getInt("abates"));
                     zplayer.setSede(rs.getInt("sede"));
+                    System.out.println("Carregou o jogador " + uuid.toString() + " com " + zplayer.getAbates() + " abates");
                     cache.put(uuid, zplayer);
                 }
             }
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+        } catch (Exception error) {
+            error.printStackTrace();
         }
     }
 

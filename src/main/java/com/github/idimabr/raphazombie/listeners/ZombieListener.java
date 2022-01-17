@@ -4,6 +4,7 @@ import com.github.idimabr.raphazombie.RaphaZombie;
 import com.github.idimabr.raphazombie.managers.CacheManager;
 import com.github.idimabr.raphazombie.objects.ZPlayer;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
@@ -12,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.Random;
 
 public class ZombieListener implements Listener {
 
@@ -66,6 +69,7 @@ public class ZombieListener implements Listener {
     @EventHandler
     public void onZombieDeath(EntityDeathEvent e){
         if(e.getEntityType() != EntityType.ZOMBIE) return;
+        if(e.getEntity().getKiller() == null) return;
         if(e.getEntity().getKiller().getType() != EntityType.PLAYER) return;
         if(!e.getEntity().getWorld().getName().equalsIgnoreCase(RaphaZombie.getInstance().config.getString("Mundo"))) return;
 
@@ -91,10 +95,78 @@ public class ZombieListener implements Listener {
                 e.setCancelled(true);
     }
 
+
     @EventHandler
-    public void event(CreatureSpawnEvent e) {
-        if(e.getLocation().getWorld().getName().equalsIgnoreCase(RaphaZombie.getInstance().config.getString("Mundo")))
-            if(!e.getEntityType().toString().contains("ZOMBIE"))
+    public void event(EntitySpawnEvent e) {
+        if(!e.getLocation().getWorld().getName().equalsIgnoreCase(RaphaZombie.getInstance().config.getString("Mundo"))) return;
+
+        if (e.getEntity() instanceof org.bukkit.entity.Skeleton) {
+            e.setCancelled(true);
+            randomZombie(e.getLocation());
+            return;
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Creeper) {
+            randomZombie(e.getLocation());
+            e.setCancelled(true);
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Spider) {
+            randomZombie(e.getLocation());
+            e.setCancelled(true);
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.CaveSpider) {
+            randomZombie(e.getLocation());
+            e.setCancelled(true);
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Enderman) {
+            randomZombie(e.getLocation());
+            e.setCancelled(true);
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Slime) {
+            randomZombie(e.getLocation());
+            e.setCancelled(true);
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Witch) {
+            randomZombie(e.getLocation());
+            e.setCancelled(true);
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Cow) {
+            int chance = (new Random()).nextInt(100);
+            if (chance <= 50) {
                 e.setCancelled(true);
+                randomZombie(e.getLocation());
+            }
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Chicken) {
+            int chance = (new Random()).nextInt(100);
+            if (chance <= 50) {
+                e.setCancelled(true);
+                randomZombie(e.getLocation());
+            }
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Pig) {
+            int chance = (new Random()).nextInt(100);
+            if (chance <= 50) {
+                e.setCancelled(true);
+                randomZombie(e.getLocation());
+            }
+        }
+        if (e.getEntity() instanceof org.bukkit.entity.Sheep) {
+            int chance = (new Random()).nextInt(100);
+            if (chance <= 50) {
+                e.setCancelled(true);
+                randomZombie(e.getLocation());
+            }
+        }
+    }
+
+    public void randomZombie(Location loc) {
+        int quantidade = (new Random()).nextInt(5);
+        if (quantidade == 0)
+            quantidade = 1;
+        for (int i = 0; i <= quantidade; i++) {
+            int pot = (new Random()).nextInt(2);
+            Zombie zombie = (Zombie)loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
+            zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 9999, pot));
+        }
     }
 }

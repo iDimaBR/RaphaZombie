@@ -13,6 +13,7 @@ import com.github.idimabr.raphazombie.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,25 +37,30 @@ public final class RaphaZombie extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        config = new ConfigUtil(null, "config.yml", false);
+        config = new ConfigUtil(null, "config.yml", true);
+        config.reloadConfig();
         config.saveConfig();
-        messages = new ConfigUtil(null, "messages.yml", false);
+        messages = new ConfigUtil(null, "messages.yml", true);
+        messages.reloadConfig();
         messages.saveConfig();
+
         sql = new MySQL();
         sql.createTable();
-        loadItens();
-        registerRecipes();
-        getCommand("infect").setExecutor(new InfectCommand());
-        Bukkit.getPluginManager().registerEvents(new ZombieListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
         if( Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
             new ZombiePlaceholder().register();
         }
+        loadItens();
+        getCommand("infect").setExecutor(new InfectCommand());
+        Bukkit.getPluginManager().registerEvents(new ZombieListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
         CacheManager.loadCache(true, null);
+
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
-                Bukkit.getWorld(config.getString("Mundo")).getPlayers().forEach(player -> {
+                World world = Bukkit.getWorld(config.getString("Mundo"));
+               world.getPlayers().forEach(player -> {
+                    world.setTime(13700);
                     if(CacheManager.cache.containsKey(player.getUniqueId())){
                         ZPlayer zplayer = CacheManager.cache.get(player.getUniqueId());
 
@@ -122,7 +128,10 @@ public final class RaphaZombie extends JavaPlugin {
 
         drop = new ItemBuilder(
                 Material.valueOf(config.getString("Itens.DropZombie.Material"))
-        ).setName(config.getString("Itens.DropZombie.Nome").replace("&","§")).toItemStack();
+        ).setName(config.getString("Itens.DropZombie.Nome").replace("&","§"))
+                .setLore(config.getStringList("Itens.DropZombie.Lore")).toItemStack();
+
+        registerRecipes();
     }
 
     public void registerRecipes(){

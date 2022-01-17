@@ -2,18 +2,63 @@ Morte:
   Sede: "&cO jogador %player% morreu de sede."
   Zumbi: "&cO jogador %player% morreu de infecção para um zumbi."
 
-Utilizar:
-  Soro: "&aVocê recuperou parte de sua sede."
-  Kit: "&aVocê parou de sangrar por conta do kit médico utilizado."
-  Morfina: "&aVocê tomou morfina e foi curado da infecção."
-
-Erro:
-  NaoInfectado: "&cVocê não está infectado!"
-  NaoSangrando: "&cVocê não está sangrando!"
-  NaoSede: "&cVocê está com a sede cheia."
-
 Mundo:
   Entrou: "&cO jogador %player% entrou do mundo de Chernobyl!"
   Saiu: "&cO jogador %player% saiu do mundo de Chernobyl!"
 
 ActionBAR: "§b⟡ Sede: §3%sede% %avisos%"
+
+Titles:
+  Infectado:
+    Ativar: true
+    Tempo: 8
+    Title: "&cINFECTADO!"
+    SubTitle: "&7Você foi infectado!"
+  Sangrando:
+    Ativar: true
+    Tempo: 8
+    Title: "&cSANGRANDO!"
+    SubTitle: "&7Você está sangrando!"
+  NaoSede:
+    Ativar: true
+    Tempo: 8
+    Title: "&cOPSS!"
+    SubTitle: "&cVocê não está com sede."
+  NaoSangrando:
+    Ativar: true
+    Tempo: 8
+    Title: "&cOPSS!"
+    SubTitle: "&cVocê não está sangrando."
+  NaoInfectado:
+    Ativar: true
+    Tempo: 8
+    Title: "&cOPSS!"
+    SubTitle: "&cVocê não está infectado."
+  UsarSoro:
+    Ativar: true
+    Tempo: 8
+    Title: "&aRECUPERADO!"
+    SubTitle: "&fVocê aumentou sua sede."
+  UsarKit:
+    Ativar: true
+    Tempo: 8
+    Title: "&aRECUPERADO!"
+    SubTitle: "&fVocê não está mais sangrando."
+  UsarMorfina:
+    Ativar: true
+    Tempo: 8
+    Title: "&aRECUPERADO!"
+    SubTitle: "&fVocê não está mais infectado."
+
+
+NoTitles:
+  Infectado: "&cVocê foi infectado!"
+  Sangrando: "&cVocê está sangrando!"
+  Erro:
+    NaoInfectado: "&cVocê não está infectado!"
+    NaoSangrando: "&cVocê não está sangrando!"
+    NaoSede: "&cVocê está com a sede cheia."
+  Utilizar:
+    Soro: "&aVocê recuperou parte de sua sede."
+    Kit: "&aVocê parou de sangrar por conta do kit médico utilizado."
+    Morfina: "&aVocê tomou morfina e foi curado da infecção."

@@ -1,6 +1,7 @@
 package com.github.idimabr.raphazombie.commands;
 
 import com.github.idimabr.raphazombie.RaphaZombie;
+import com.github.idimabr.raphazombie.utils.ConfigUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -55,11 +56,25 @@ public class InfectCommand implements CommandExecutor {
                         player.sendMessage("§aVocê recebeu §f" + amount + "§a morfina.");
                         break;
                     default:
-                        player.sendMessage("§cItens disponíveis: §fsoro, kit &ce &fmorfina");
+                        player.sendMessage("§cItens disponíveis: §fsoro, kit §ce §fmorfina");
                         return false;
                 }
             }
         }else{
+            if(args.length == 1){
+                if(args[0].equalsIgnoreCase("reload")){
+                    RaphaZombie.getInstance().config = new ConfigUtil(null, "config.yml", true);
+                    RaphaZombie.getInstance().config.saveConfig();
+                    RaphaZombie.getInstance().messages = new ConfigUtil(null, "messages.yml", true);
+                    RaphaZombie.getInstance().messages.saveConfig();
+
+                    player.sendMessage("§aConfig reiniciada!");
+                    return false;
+                }else{
+                    player.sendMessage("§cUtilize /infect reload");
+                    return false;
+                }
+            }
             player.sendMessage("§cUtilize /infect give <jogador> <quantidade> <soro/kit/morfina>");
         }
         return false;

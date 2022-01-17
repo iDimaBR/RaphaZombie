@@ -22,7 +22,6 @@ public class ConfigUtil {
 
         createDirectory(directory);
         createFile(directory, fileName);
-
         fileConfig = YamlConfiguration.loadConfiguration(file);
     }
 
