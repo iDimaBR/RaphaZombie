@@ -55,6 +55,11 @@ Titles:
     Tempo: 8
     Title: "&aARMAZENADO!"
     SubTitle: "&fVocê armazenou %quantidade%x astato(s) com sucesso."
+  Delay:
+    Ativar: true
+    Tempo: 8
+    Title: "&cAGUARDE!"
+    SubTitle: "&fAinda falta %tempo% segundos para usar novamente."
 
 
 NoTitles:
@@ -65,6 +70,7 @@ NoTitles:
     NaoInfectado: "&cVocê não está infectado!"
     NaoSangrando: "&cVocê não está sangrando!"
     NaoSede: "&cVocê está com a sede cheia."
+    Delay: "&fAinda falta %tempo% segundos para usar novamente."
   Utilizar:
     Soro: "&aVocê recuperou parte de sua sede."
     Kit: "&aVocê parou de sangrar por conta do kit médico utilizado."

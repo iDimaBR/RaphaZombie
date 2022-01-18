@@ -5,6 +5,7 @@ MySQL:
   Password: ''
 
 Mundo: "mundo"
+DamageToBlooding: 6
 
 Chance:
   Membro: 25
@@ -49,11 +50,13 @@ Itens:
   Morfina:
     Nome: "§aMorfina"
     Material: "PAPER"
+    Tempo: 10
     Lore:
     - "§7Utilize para curar sua infecção."
   KitMedico:
     Nome: "§aKit Médico"
     Material: "REDSTONE_BLOCK"
+    Tempo: 10
     Lore:
     - "§7Utilize para curar seu sangramento."
   Soro:

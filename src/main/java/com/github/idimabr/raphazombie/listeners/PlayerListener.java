@@ -21,12 +21,15 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
 public class PlayerListener implements Listener {
 
     private Inventory invConfirm = Bukkit.createInventory(null, 9 * 3, RaphaZombie.getInstance().config.getString("InventarioConfirmar.Titulo"));
+    private Map<UUID, Long> cooldowns = new HashMap<>();
     private TitleUtil TitleUtil = new TitleUtil();
     private ConfigUtil messages = RaphaZombie.getInstance().messages;
 
@@ -151,6 +154,20 @@ public class PlayerListener implements Listener {
                 }
                 return;
             }
+
+            if(cooldowns.containsKey(player.getUniqueId())) {
+                long seconds = ((cooldowns.get(player.getUniqueId())/1000) + RaphaZombie.getInstance().config.getInt("Itens.Soro.Tempo")) - (System.currentTimeMillis()/1000);
+                if(seconds > 0) {
+                    if (RaphaZombie.getInstance().messages.getBoolean("Titles.Delay.Ativar")){
+                        TitleUtil.sendTitle(player, messages.getString("Titles.Delay.Title").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()), messages.getString("Titles.Delay.SubTitle").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()), messages.getInt("Titles.Delay.Tempo"), messages.getInt("Titles.Delay.Tempo"), messages.getInt("Titles.Delay.Tempo"));
+                    }else{
+                        player.sendMessage(messages.getString("NoTitles.Delay").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()));
+                    }
+                    return;
+                }
+            }
+
+            cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
             zplayer.setSede(Math.min((zplayer.getSede() + 20), 100));
             if (RaphaZombie.getInstance().messages.getBoolean("Titles.UsarSoro.Ativar")){
                 TitleUtil.sendTitle(player, messages.getString("Titles.UsarSoro.Title").replace("&", "§").replace("%player%", player.getName()), messages.getString("Titles.UsarSoro.SubTitle").replace("&", "§").replace("%player%", player.getName()), messages.getInt("Titles.UsarSoro.Tempo"), messages.getInt("Titles.UsarSoro.Tempo"), messages.getInt("Titles.UsarSoro.Tempo"));
@@ -169,11 +186,25 @@ public class PlayerListener implements Listener {
                 }
                 return;
             }
+
+            if(cooldowns.containsKey(player.getUniqueId())) {
+                long seconds = ((cooldowns.get(player.getUniqueId())/1000) + RaphaZombie.getInstance().config.getInt("Itens.KitMedico.Tempo")) - (System.currentTimeMillis()/1000);
+                if(seconds > 0) {
+                    if (RaphaZombie.getInstance().messages.getBoolean("Titles.Delay.Ativar")){
+                        TitleUtil.sendTitle(player, messages.getString("Titles.Delay.Title").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()), messages.getString("Titles.Delay.SubTitle").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()), messages.getInt("Titles.Delay.Tempo"), messages.getInt("Titles.Delay.Tempo"), messages.getInt("Titles.Delay.Tempo"));
+                    }else{
+                        player.sendMessage(messages.getString("NoTitles.Delay").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()));
+                    }
+                    return;
+                }
+            }
+
             if (RaphaZombie.getInstance().messages.getBoolean("Titles.UsarKit.Ativar")){
                 TitleUtil.sendTitle(player, messages.getString("Titles.UsarKit.Title").replace("&", "§").replace("%player%", player.getName()), messages.getString("Titles.UsarKit.SubTitle").replace("&", "§").replace("%player%", player.getName()), messages.getInt("Titles.UsarKit.Tempo"), messages.getInt("Titles.UsarKit.Tempo"), messages.getInt("Titles.UsarKit.Tempo"));
             }else{
                 player.sendMessage(messages.getString("NoTitles.Utilizar.Kit").replace("&", "§").replace("%player%", player.getName()));
             }
+            cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
             zplayer.setBlooding(false);
             player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
             removeItem(player);
@@ -188,11 +219,24 @@ public class PlayerListener implements Listener {
                 return;
             }
 
+            if(cooldowns.containsKey(player.getUniqueId())) {
+                long seconds = ((cooldowns.get(player.getUniqueId())/1000) + RaphaZombie.getInstance().config.getInt("Itens.Morfina.Tempo")) - (System.currentTimeMillis()/1000);
+                if(seconds > 0) {
+                    if (RaphaZombie.getInstance().messages.getBoolean("Titles.Delay.Ativar")){
+                        TitleUtil.sendTitle(player, messages.getString("Titles.Delay.Title").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()), messages.getString("Titles.Delay.SubTitle").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()), messages.getInt("Titles.Delay.Tempo"), messages.getInt("Titles.Delay.Tempo"), messages.getInt("Titles.Delay.Tempo"));
+                    }else{
+                        player.sendMessage(messages.getString("NoTitles.Delay").replace("%tempo%",seconds+"").replace("&", "§").replace("%player%", player.getName()));
+                    }
+                    return;
+                }
+            }
+
             if (RaphaZombie.getInstance().messages.getBoolean("Titles.UsarMorfina.Ativar")){
                 TitleUtil.sendTitle(player, messages.getString("Titles.UsarMorfina.Title").replace("&", "§").replace("%player%", player.getName()), messages.getString("Titles.UsarMorfina.SubTitle").replace("&", "§").replace("%player%", player.getName()), messages.getInt("Titles.UsarMorfina.Tempo"), messages.getInt("Titles.UsarMorfina.Tempo"), messages.getInt("Titles.UsarMorfina.Tempo"));
             }else{
                 player.sendMessage(messages.getString("NoTitles.Utilizar.Morfina").replace("&", "§").replace("%player%", player.getName()));
             }
+            cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
             zplayer.setInfected(false);
             player.playSound(player.getLocation(), Sound.DRINK, 1, 1);
             removeItem(player);

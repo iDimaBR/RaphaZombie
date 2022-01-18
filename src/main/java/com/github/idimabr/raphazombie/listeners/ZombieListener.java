@@ -51,7 +51,7 @@ public class ZombieListener implements Listener {
         if(zplayer.isBlooding()) return;
 
         if (player.getGameMode().equals(GameMode.SURVIVAL) && e.getCause() == EntityDamageEvent.DamageCause.FALL || e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK){
-            if(e.getDamage() >= 6){
+            if(e.getDamage() >= RaphaZombie.getInstance().config.getInt("DamageToBlooding")){
                 zplayer.setBlooding(true);
                 return;
             }
